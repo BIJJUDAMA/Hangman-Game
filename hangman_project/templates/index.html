@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hangman Game - Home</title>
+    <!-- Bootstrap & Animate.css CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+</head>
+
+<body class="home-bg">
+
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+
+    <div class="home-card animate__animated animate__fadeIn text-center shadow">
+            <h1 class="home-title animate__animated animate__zoomInDown mb-3">
+                Hangman
+            </h1>
+            <p class="home-subtitle animate__animated animate__fadeInUp mb-4" style="animation-delay: 0.3s">
+                Guess the word before it's too late!</p>
+            <div class="home-buttons d-flex flex-column gap-3 align-items-center">
+                <a href="{% url 'game_page' %}" id="playGameBtn" class="btn btn-play animate__animated animate__fadeInUp w-100 fs-6"
+                style="animation-delay: 0.6s">Play Game</a>
+
+                <a href="{% url 'login_page' %}" class="btn btn-play animate__animated animate__fadeInUp w-100 fs-6"
+                style="animation-delay: 0.6s"> Login</a>
+
+                <button id="guide" class="btn btn-how-to animate__animated animate__fadeInUp"
+                    style="animation-delay: 1.0s"> How to Play</button>
+            </div>
+        </div>
+
+    <div id="how-to-play-popup" class="popup-container animate__animated">
+        <div class="popup-content">
+            <span id="close-how-to-play-btn" class="close-popup">&times;</span>
+            <h2 id="how-to-play-title">How to Play Hangman</h2>
+            <div class="how-to-play-content">
+                <h3>Game Objective</h3>
+                <p>Guess the hidden word by selecting letters before the hangman is complete.</p>
+
+                <h3>Game Rules</h3>
+                <ul>
+                    <li>Each game features a random word from a visible category.</li>
+                    <li>Click or tap letters on the on-screen keyboard, or use your physical keyboard to guess
+                        letters.</li>
+                    <li>Correct guesses reveal all instances of that letter in the word.</li>
+                    <li>Incorrect guesses add a part to the hangman.</li>
+                    <li>You lose after <strong>10 incorrect guesses</strong> or if the timer (if set) runs out.
+                    </li>
+                    <li>Already guessed letters cannot be selected again.</li>
+                </ul>
+
+                <h3>Progression System</h3>
+                <ul>
+                    <li><strong>Levels:</strong> Progress through 20 levels, each increasing in word difficulty.
+                    </li>
+                    <li><strong>XP:</strong> Earn 15 XP for each win. Fill the XP bar to level up.</li>
+                    <li><strong>Word Difficulty:</strong>
+                        <ul>
+                            <li>Levels 1-7: Easy words</li>
+                            <li>Levels 8-14: Medium words</li>
+                            <li>Levels 15-20: Hard words</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>Special Features</h3>
+                <ul>
+                    <li><strong>Timer:</strong> Optionally set a time limit for each word. If time runs out, you
+                        lose the round.</li>
+                    <li><strong>Hints:</strong> Click the <b>Hint</b> button to open the hint popup and use
+                        special
+                        power-ups:
+                        <ul>
+                            <li><b>Reveal a Letter</b> <span style="color:#388e8e;">(10 coins)</span>: Reveals a
+                                random unrevealed letter in the word.</li>
+                            <li><b>Remove Incorrect Letter</b> <span style="color:#388e8e;">(5 coins)</span>:
+                                Disables a random incorrect letter on the keyboard.</li>
+                            <li><b>Extra Guess</b> <span style="color:#388e8e;">(15 coins)</span>: Restores one
+                                wrong guess (gives you an extra chance).</li>
+                        </ul>
+
+                    <li><em>Hint options are disabled if you do not have enough coins. Disabled hint buttons
+                            appear greyed out and cannot be clicked.</em></li>
+                    <li><strong>Coins:</strong> Earn 10 coins for each win. Lose 5 coins for each loss.</li>
+                    <li><strong>Streak:</strong> Track your consecutive wins for extra challenge.</li>
+                    <li><strong>Progress Bar:</strong> Visual indicator of your XP progress to the next level.</li>
+                </ul>
+            </div>
+            <button id="how-to-play-got-it-btn" class="popup-btn">Got it!</button>
+        </div>
+    </div>
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="{% static 'js/index.js' %}"></script>
+</body>
+
+</html>

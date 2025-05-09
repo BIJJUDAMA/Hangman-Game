@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="{% static 'css/game.css' %}">
+</head>
+
+<body>
+
+    <div id="main" class="animate__animated animate__fadeIn animate__slower">
+        <div class="container">
+            <div class="card justify-content-center align-items-center border-0 animate__animated animate__rubberBand">
+                <!-- Game stats row -->
+                <div class="category-container w-100 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <div id="numcoin"class="me-2">🪙 Coins: 0</div>
+                        <div id="streak" class="me-2">🔥 Streak: 0</div>
+                        <div id="username-display" class="justify-content-center align-items-center d-flex" style="color:#388e8e; border: 1px solid #b2cccc;  padding: 5px 8px;font-size: 0.85rem; border-radius: 8px; height:1.8rem" >👤 Player:</div>
+                    </div>
+                    <div id="timer-display">⏱️: Off</div>
+                </div>
+            </div>
+
+
+            <div class="xp-progress-container animate__animated animate__rubberBand">
+                <div class="xp-progress-bar position-relative">
+                    <div id="xp-progress" class="xp-progress"></div>
+                    <div id="xp-overlay"
+                        class="xp-overlay d-flex flex-row justify-content-center align-items-center w-100 h-100 position-absolute top-0 start-0">
+                        <span id="level-overlay" class="me-3">Lvl: 1</span>
+                        <span id="xp-overlay-text">XP: 0/100</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- Category and hint row -->
+            <div class="row mb-0 animate__animated animate__rubberBand">
+                <div class="col-12">
+                    <div class="category-container d-flex justify-content-between align-items-center p-2">
+                        <span>
+                            Category: <span id="hint-category" class="badge">Animal</span>
+                        </span>
+                        <div class="button-group d-flex">
+                            <button id="how-to-play-btn" class="btn text-nowrap">How To Play</button>
+                            <button id="hint-btn" class="btn btn-sm">💡Hints</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Main game content -->
+            <div class="row">
+                <!-- Hangman image column -->
+                <div class="col-md-5 mb-2 animate__animated animate__rubberBand">
+                    <div class="hangman-container d-flex justify-content-center align-items-center">
+                        <img id="hangman-img" src="{% static 'images/0.png' %}" alt="Hangman">
+                    </div>
+                </div>
+
+
+                <!-- Word display and guesses column -->
+                <div class="col-md-7 mb-1 animate__animated animate__rubberBand">
+                    <div id="word-display">_ _ _ _ _</div>
+                    <div id="guess-counter" class="mb-1">Guesses Left: ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</div>
+                    <div id="message" class="mb-1"></div>
+                    <div id="guessed-letters" class="guessed-letters"></div>
+                </div>
+            </div>
+
+            <!-- Keyboard section -->
+            <div class="row mb-1 animate__animated animate__rubberBand ">
+                <div class="col-12">
+                    <div id="keyboard" class="text-center"></div>
+                </div>
+            </div>
+
+            <!-- Game buttons -->
+            <div class="container animate__animated animate__rubberBand">
+                <div class="row mt-1 justify-content-center">
+                    <div class="col-12 col-md-4 mb-2 d-flex justify-content-center">
+                        <button id="reset-btn" class="btn text-nowrap">New Game</button>
+                    </div>
+                    <div class="col-12 col-md-4 mb-2 d-flex justify-content-center">
+                        <button id="reset-stats-btn" class="btn text-nowrap">Reset Stats</button>
+                    </div>
+                    <div class="col-12 col-md-4 mb-2 d-flex justify-content-center">
+                        <button id="logout-btn" class="btn text-nowrap">Logout</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Result Popup -->
+            <div id="popup" class="popup-container animate__animated animate__rubberBand">
+                <div class="popup-content">
+                    <span class="close-popup" id="close-popup">&times;</span>
+                    <h2 id="popup-title">Game Over</h2>
+                    <div id="popup-message"></div>
+                    <div class="popup-stats">
+                        <p>🪙Coins: <span id="popup-coins">0</span></p>
+                        <p>🔥Streak: <span id="popup-streak">0</span></p>
+                        <p>Level: <span id="popup-level">1</span></p>
+                        <p>XP: <span id="popup-xp">0/100</span></p>
+                    </div>
+                    <button id="popup-continue" class="popup-btn">Continue</button>
+                </div>
+            </div>
+
+
+
+            <!-- Timer Popup -->
+            <div id="timer-popup" class="popup-container animate__animated">
+                <div class="popup-content">
+                    <span id="close-timer-popup" class="close-popup">&times;</span>
+                    <h2 id="timer-title">Timer Settings</h2>
+                    <p id="timer-message">Select a timer duration:</p>
+                    <div class="timer-options">
+                        <button id="timer-10" class="popup-btn">10 seconds</button>
+                        <button id="timer-15" class="popup-btn">15 seconds</button>
+                        <button id="timer-20" class="popup-btn">20 seconds</button>
+                        <button id="timer-off" class="popup-btn">Turn Off</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- How to Play Guide Popup -->
+            <div id="how-to-play-popup" class="popup-container animate__animated">
+                <div class="popup-content">
+                    <span id="close-how-to-play-btn" class="close-popup">&times;</span>
+                    <h2 id="how-to-play-title">How to Play Hangman</h2>
+                    <div class="how-to-play-content">
+                        <h3>Game Objective</h3>
+                        <p>Guess the hidden word by selecting letters before the hangman is complete.</p>
+
+                        <h3>Game Rules</h3>
+                        <ul>
+                            <li>Each game features a random word from a visible category.</li>
+                            <li>Click or tap letters on the on-screen keyboard, or use your physical keyboard to guess
+                                letters.</li>
+                            <li>Correct guesses reveal all instances of that letter in the word.</li>
+                            <li>Incorrect guesses add a part to the hangman.</li>
+                            <li>You lose after <strong>10 incorrect guesses</strong> or if the timer (if set) runs out.
+                            </li>
+                            <li>Already guessed letters cannot be selected again.</li>
+                        </ul>
+
+                        <h3>Progression System</h3>
+                        <ul>
+                            <li><strong>Levels:</strong> Progress through 20 levels, each increasing in word difficulty.
+                            </li>
+                            <li><strong>XP:</strong> Earn 15 XP for each win. Fill the XP bar to level up.</li>
+                            <li><strong>Word Difficulty:</strong>
+                                <ul>
+                                    <li>Levels 1-7: Easy words</li>
+                                    <li>Levels 8-14: Medium words</li>
+                                    <li>Levels 15-20: Hard words</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h3>Special Features</h3>
+                        <ul>
+                            <li><strong>Timer:</strong> Optionally set a time limit for each word. If time runs out, you
+                                lose the round.</li>
+                            <li><strong>Hints:</strong> Click the <b>Hint</b> button to open the hint popup and use
+                                special
+                                power-ups:
+                                <ul>
+                                    <li><b>Reveal a Letter</b> <span style="color:#388e8e;">(10 coins)</span>: Reveals a
+                                        random unrevealed letter in the word.</li>
+                                    <li><b>Remove Incorrect Letter</b> <span style="color:#388e8e;">(5 coins)</span>:
+                                        Disables a random incorrect letter on the keyboard.</li>
+                                    <li><b>Extra Guess</b> <span style="color:#388e8e;">(15 coins)</span>: Restores one
+                                        wrong guess (gives you an extra chance).</li>
+                                </ul>
+
+                            <li><em>Hint options are disabled if you do not have enough coins. Disabled hint buttons
+                                    appear greyed out and cannot be clicked.</em></li>
+                            <li><strong>Coins:</strong> Earn 10 coins for each win. Lose 5 coins for each loss.</li>
+                            <li><strong>Streak:</strong> Track your consecutive wins for extra challenge.</li>
+                            <li><strong>Progress Bar:</strong> Visual indicator of your XP progress to the next level.
+                            </li>
+                        </ul>
+                    </div>
+                    <button id="how-to-play-got-it-btn" class="popup-btn">Got it!</button>
+                </div>
+            </div>
+
+
+            <div id="hint-popup" class="popup-container animate__animated">
+                <div class="popup-content">
+                    <span class="close-popup" id="close-hint-popup">&times;</span>
+                    <h2 id="hint-popup-title">Use a Hint</h2>
+                    <div class="hint-options">
+
+                        <button class="popup-btn hint-action-btn" id="remove-letter-btn">Remove Letter(-5🪙)</button>
+                        <button class="popup-btn hint-action-btn" id="reveal-letter-btn">Reveal a Letter(-10🪙)
+                        </button>
+                        <button class="popup-btn hint-action-btn" id="extra-guess-btn">Extra Guess(-15🪙)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script>
+            const loginPageUrl = "{% url 'login_page' %}"; 
+        </script>
+        <script src="{% static 'js/game.js' %}"></script>
+</body>
+
+</html>
