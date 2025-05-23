@@ -67,17 +67,7 @@ WSGI_APPLICATION = 'hangman_project.wsgi.application'
 
 DATABASES = {
     
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hangman_db_local',  #You can keep any name here but make sure a database of this name is in you MySQL 
-        'USER': 'root', #Standard convention for full access
-        'PASSWORD': 'Your_MySQL_Password', #Password
-        'HOST': 'localhost', #If you are running it locally
-        'PORT': '3306', #Standard convention
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
-    }
+
 }
 
 
