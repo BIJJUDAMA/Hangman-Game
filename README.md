@@ -64,6 +64,14 @@ CREATE DATABASE hangman_db_local;
 
 ## Step 8: Configure Database Settings
 
+Create a new user if you are not going to use root in MySQL:
+
+```sql
+CREATE USER 'hangman_user'@'localhost' IDENTIFIED BY 'your_secure_password';
+GRANT ALL PRIVILEGES ON hangman_db_local.* TO 'hangman_user'@'localhost';
+FLUSH PRIVILEGES;
+```
+
 Open the file:
 ```
 Hangman-Game/hangman_project/hangman_project/settings.py
