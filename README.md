@@ -59,7 +59,7 @@ Open MySQL and run:
 ```sql
 CREATE DATABASE hangman_db_local;
 ```
-
+Or you can name it whatever you want
 ---
 
 ## Step 8: Configure Database Settings
@@ -74,7 +74,7 @@ Update the `DATABASES` configuration:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hangman_db_local',
+        'NAME': 'hangman_db_local', #Or the name of the database you created
         'USER': 'hangman_user',  # Replace with your MySQL username
         'PASSWORD': 'your_secure_password',  # Replace with your MySQL password
         'HOST': 'localhost',
