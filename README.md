@@ -67,7 +67,7 @@ CREATE DATABASE hangman_db_local;
 Create a new user if you are not going to use root in MySQL:
 
 ```sql
-CREATE USER 'hangman_user'@'localhost' IDENTIFIED BY 'your_secure_password';
+CREATE USER 'hangman_user'@'localhost' IDENTIFIED BY 'your_password';
 GRANT ALL PRIVILEGES ON hangman_db_local.* TO 'hangman_user'@'localhost';
 FLUSH PRIVILEGES;
 ```
@@ -82,8 +82,8 @@ Update the `DATABASES` configuration:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hangman_db_local', #The name of the database you created
-        'USER': 'hangman_user',  # Replace with your MySQL username
+        'NAME': 'hangman_db_local', #The name of the database you created and gave privileges to while creating new user
+        'USER': 'hangman_user',  # Replace with your MySQL username that you created
         'PASSWORD': 'your_secure_password',  # Replace with your MySQL password
         'HOST': 'localhost',
         'PORT': '3306',
@@ -96,7 +96,7 @@ DATABASES = {
 
 ---
 
-## 🛠️ Step 9: Apply Migrations and Run the Server
+## Step 9: Apply Migrations and Run the Server
 ```bash
 python manage.py migrate
 python manage.py runserver
