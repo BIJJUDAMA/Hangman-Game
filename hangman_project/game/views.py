@@ -64,7 +64,7 @@ def login_api(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            email_or_username = data.get('email_or_username') # Match key from frontend JS
+            email_or_username = data.get('email_or_username') 
             password = data.get('password')
             if not all([email_or_username, password]):
                 return JsonResponse({'error': 'Missing fields'}, status=400)

@@ -1,0 +1,842 @@
+[
+    {
+        "text": "APPLE",
+        "category": "FRUIT",
+        "difficulty": "easy"
+    },
+    {
+        "text": "MANGO",
+        "category": "FRUIT",
+        "difficulty": "easy"
+    },
+    {
+        "text": "PEACH",
+        "category": "FRUIT",
+        "difficulty": "easy"
+    },
+    {
+        "text": "ORANGE",
+        "category": "FRUIT",
+        "difficulty": "easy"
+    },
+    {
+        "text": "BANANA",
+        "category": "FRUIT",
+        "difficulty": "easy"
+    },
+    {
+        "text": "CHERRY",
+        "category": "FRUIT",
+        "difficulty": "easy"
+    },
+    {
+        "text": "PAPAYA",
+        "category": "FRUIT",
+        "difficulty": "medium"
+    },
+    {
+        "text": "PINEAPPLE",
+        "category": "FRUIT",
+        "difficulty": "medium"
+    },
+    {
+        "text": "STRAWBERRY",
+        "category": "FRUIT",
+        "difficulty": "medium"
+    },
+    {
+        "text": "BLUEBERRY",
+        "category": "FRUIT",
+        "difficulty": "medium"
+    },
+    {
+        "text": "BLACKBERRY",
+        "category": "FRUIT",
+        "difficulty": "hard"
+    },
+    {
+        "text": "POMEGRANATE",
+        "category": "FRUIT",
+        "difficulty": "hard"
+    },
+    {
+        "text": "WATERMELON",
+        "category": "FRUIT",
+        "difficulty": "hard"
+    },
+    {
+        "text": "ELDERBERRY",
+        "category": "FRUIT",
+        "difficulty": "hard"
+    },
+    {
+        "text": "PASSIONFRUIT",
+        "category": "FRUIT",
+        "difficulty": "hard"
+    },
+    {
+        "text": "LION",
+        "category": "ANIMAL",
+        "difficulty": "easy"
+    },
+    {
+        "text": "TIGER",
+        "category": "ANIMAL",
+        "difficulty": "easy"
+    },
+    {
+        "text": "HORSE",
+        "category": "ANIMAL",
+        "difficulty": "easy"
+    },
+    {
+        "text": "ZEBRA",
+        "category": "ANIMAL",
+        "difficulty": "easy"
+    },
+    {
+        "text": "MONKEY",
+        "category": "ANIMAL",
+        "difficulty": "easy"
+    },
+    {
+        "text": "PENGUIN",
+        "category": "ANIMAL",
+        "difficulty": "medium"
+    },
+    {
+        "text": "FLAMINGO",
+        "category": "ANIMAL",
+        "difficulty": "medium"
+    },
+    {
+        "text": "OSTRICH",
+        "category": "ANIMAL",
+        "difficulty": "medium"
+    },
+    {
+        "text": "CROCODILE",
+        "category": "ANIMAL",
+        "difficulty": "medium"
+    },
+    {
+        "text": "ELEPHANT",
+        "category": "ANIMAL",
+        "difficulty": "medium"
+    },
+    {
+        "text": "HIPPOPOTAMUS",
+        "category": "ANIMAL",
+        "difficulty": "hard"
+    },
+    {
+        "text": "RHINOCEROS",
+        "category": "ANIMAL",
+        "difficulty": "hard"
+    },
+    {
+        "text": "CHIMPANZEE",
+        "category": "ANIMAL",
+        "difficulty": "hard"
+    },
+    {
+        "text": "PLATYPUS",
+        "category": "ANIMAL",
+        "difficulty": "hard"
+    },
+    {
+        "text": "AXOLOTL",
+        "category": "ANIMAL",
+        "difficulty": "hard"
+    },
+    {
+        "text": "MOUSE",
+        "category": "TECHNOLOGY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "ROBOT",
+        "category": "TECHNOLOGY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "RADIO",
+        "category": "TECHNOLOGY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "CAMERA",
+        "category": "TECHNOLOGY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "TABLET",
+        "category": "TECHNOLOGY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "PRINTER",
+        "category": "TECHNOLOGY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "PROJECTOR",
+        "category": "TECHNOLOGY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "SMARTPHONE",
+        "category": "TECHNOLOGY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "MICROWAVE",
+        "category": "TECHNOLOGY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "SATELLITE",
+        "category": "TECHNOLOGY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "MICROPROCESSOR",
+        "category": "TECHNOLOGY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "TELECOMMUNICATION",
+        "category": "TECHNOLOGY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "ACCELEROMETER",
+        "category": "TECHNOLOGY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "SEMICONDUCTOR",
+        "category": "TECHNOLOGY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "INDIA",
+        "category": "COUNTRY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "CHINA",
+        "category": "COUNTRY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "JAPAN",
+        "category": "COUNTRY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "BRAZIL",
+        "category": "COUNTRY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "GERMANY",
+        "category": "COUNTRY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "AUSTRALIA",
+        "category": "COUNTRY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "PORTUGAL",
+        "category": "COUNTRY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "ARGENTINA",
+        "category": "COUNTRY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "SINGAPORE",
+        "category": "COUNTRY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "SWITZERLAND",
+        "category": "COUNTRY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "NETHERLANDS",
+        "category": "COUNTRY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "LIECHTENSTEIN",
+        "category": "COUNTRY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "KAZAKHSTAN",
+        "category": "COUNTRY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "CZECH REPUBLIC",
+        "category": "COUNTRY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "RED",
+        "category": "COLOR",
+        "difficulty": "easy"
+    },
+    {
+        "text": "BLUE",
+        "category": "COLOR",
+        "difficulty": "easy"
+    },
+    {
+        "text": "GREEN",
+        "category": "COLOR",
+        "difficulty": "easy"
+    },
+    {
+        "text": "BLACK",
+        "category": "COLOR",
+        "difficulty": "easy"
+    },
+    {
+        "text": "PURPLE",
+        "category": "COLOR",
+        "difficulty": "medium"
+    },
+    {
+        "text": "VIOLET",
+        "category": "COLOR",
+        "difficulty": "medium"
+    },
+    {
+        "text": "MAROON",
+        "category": "COLOR",
+        "difficulty": "medium"
+    },
+    {
+        "text": "MAGENTA",
+        "category": "COLOR",
+        "difficulty": "medium"
+    },
+    {
+        "text": "TURQUOISE",
+        "category": "COLOR",
+        "difficulty": "hard"
+    },
+    {
+        "text": "AQUAMARINE",
+        "category": "COLOR",
+        "difficulty": "hard"
+    },
+    {
+        "text": "CHARTREUSE",
+        "category": "COLOR",
+        "difficulty": "hard"
+    },
+    {
+        "text": "ULTRAMARINE",
+        "category": "COLOR",
+        "difficulty": "hard"
+    },
+    {
+        "text": "CRIMSON",
+        "category": "COLOR",
+        "difficulty": "hard"
+    },
+    {
+        "text": "GOLF",
+        "category": "SPORT",
+        "difficulty": "easy"
+    },
+    {
+        "text": "TENNIS",
+        "category": "SPORT",
+        "difficulty": "easy"
+    },
+    {
+        "text": "SOCCER",
+        "category": "SPORT",
+        "difficulty": "easy"
+    },
+    {
+        "text": "RUGBY",
+        "category": "SPORT",
+        "difficulty": "easy"
+    },
+    {
+        "text": "HANDBALL",
+        "category": "SPORT",
+        "difficulty": "medium"
+    },
+    {
+        "text": "BADMINTON",
+        "category": "SPORT",
+        "difficulty": "medium"
+    },
+    {
+        "text": "VOLLEYBALL",
+        "category": "SPORT",
+        "difficulty": "medium"
+    },
+    {
+        "text": "BASKETBALL",
+        "category": "SPORT",
+        "difficulty": "medium"
+    },
+    {
+        "text": "TRIATHLON",
+        "category": "SPORT",
+        "difficulty": "hard"
+    },
+    {
+        "text": "SNOWBOARDING",
+        "category": "SPORT",
+        "difficulty": "hard"
+    },
+    {
+        "text": "SYNCHRONIZED",
+        "category": "SPORT",
+        "difficulty": "hard"
+    },
+    {
+        "text": "PARAGLIDING",
+        "category": "SPORT",
+        "difficulty": "hard"
+    },
+    {
+        "text": "EQUESTRIAN",
+        "category": "SPORT",
+        "difficulty": "hard"
+    },
+    {
+        "text": "BREAD",
+        "category": "FOOD",
+        "difficulty": "easy"
+    },
+    {
+        "text": "PIZZA",
+        "category": "FOOD",
+        "difficulty": "easy"
+    },
+    {
+        "text": "BURGER",
+        "category": "FOOD",
+        "difficulty": "easy"
+    },
+    {
+        "text": "NOODLES",
+        "category": "FOOD",
+        "difficulty": "easy"
+    },
+    {
+        "text": "SPAGHETTI",
+        "category": "FOOD",
+        "difficulty": "medium"
+    },
+    {
+        "text": "LASAGNA",
+        "category": "FOOD",
+        "difficulty": "medium"
+    },
+    {
+        "text": "CROISSANT",
+        "category": "FOOD",
+        "difficulty": "medium"
+    },
+    {
+        "text": "OMELETTE",
+        "category": "FOOD",
+        "difficulty": "medium"
+    },
+    {
+        "text": "GUACAMOLE",
+        "category": "FOOD",
+        "difficulty": "hard"
+    },
+    {
+        "text": "BOUILLABAISSE",
+        "category": "FOOD",
+        "difficulty": "hard"
+    },
+    {
+        "text": "RATATOUILLE",
+        "category": "FOOD",
+        "difficulty": "hard"
+    },
+    {
+        "text": "TARAMASALATA",
+        "category": "FOOD",
+        "difficulty": "hard"
+    },
+    {
+        "text": "WORCESTERSHIRE",
+        "category": "FOOD",
+        "difficulty": "hard"
+    },
+    {
+        "text": "CAR",
+        "category": "VEHICLE",
+        "difficulty": "easy"
+    },
+    {
+        "text": "BUS",
+        "category": "VEHICLE",
+        "difficulty": "easy"
+    },
+    {
+        "text": "TRAIN",
+        "category": "VEHICLE",
+        "difficulty": "easy"
+    },
+    {
+        "text": "TRUCK",
+        "category": "VEHICLE",
+        "difficulty": "easy"
+    },
+    {
+        "text": "TRACTOR",
+        "category": "VEHICLE",
+        "difficulty": "medium"
+    },
+    {
+        "text": "BICYCLE",
+        "category": "VEHICLE",
+        "difficulty": "medium"
+    },
+    {
+        "text": "SCOOTER",
+        "category": "VEHICLE",
+        "difficulty": "medium"
+    },
+    {
+        "text": "AMBULANCE",
+        "category": "VEHICLE",
+        "difficulty": "medium"
+    },
+    {
+        "text": "MOTORCYCLE",
+        "category": "VEHICLE",
+        "difficulty": "hard"
+    },
+    {
+        "text": "HELICOPTER",
+        "category": "VEHICLE",
+        "difficulty": "hard"
+    },
+    {
+        "text": "SUBMARINE",
+        "category": "VEHICLE",
+        "difficulty": "hard"
+    },
+    {
+        "text": "YACHTSMAN",
+        "category": "VEHICLE",
+        "difficulty": "hard"
+    },
+    {
+        "text": "AIRPLANE",
+        "category": "VEHICLE",
+        "difficulty": "hard"
+    },
+    {
+        "text": "CHEF",
+        "category": "OCCUPATION",
+        "difficulty": "easy"
+    },
+    {
+        "text": "NURSE",
+        "category": "OCCUPATION",
+        "difficulty": "easy"
+    },
+    {
+        "text": "DOCTOR",
+        "category": "OCCUPATION",
+        "difficulty": "easy"
+    },
+    {
+        "text": "TEACHER",
+        "category": "OCCUPATION",
+        "difficulty": "easy"
+    },
+    {
+        "text": "ENGINEER",
+        "category": "OCCUPATION",
+        "difficulty": "medium"
+    },
+    {
+        "text": "ARCHITECT",
+        "category": "OCCUPATION",
+        "difficulty": "medium"
+    },
+    {
+        "text": "SCIENTIST",
+        "category": "OCCUPATION",
+        "difficulty": "medium"
+    },
+    {
+        "text": "FIREFIGHTER",
+        "category": "OCCUPATION",
+        "difficulty": "medium"
+    },
+    {
+        "text": "PHOTOGRAPHER",
+        "category": "OCCUPATION",
+        "difficulty": "hard"
+    },
+    {
+        "text": "ELECTRICIAN",
+        "category": "OCCUPATION",
+        "difficulty": "hard"
+    },
+    {
+        "text": "PHYSIOTHERAPIST",
+        "category": "OCCUPATION",
+        "difficulty": "hard"
+    },
+    {
+        "text": "MICROBIOLOGIST",
+        "category": "OCCUPATION",
+        "difficulty": "hard"
+    },
+    {
+        "text": "HAND",
+        "category": "BODY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "NOSE",
+        "category": "BODY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "KNEE",
+        "category": "BODY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "ELBOW",
+        "category": "BODY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "SHOULDER",
+        "category": "BODY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "ABDOMEN",
+        "category": "BODY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "EYEBROW",
+        "category": "BODY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "KNEECAP",
+        "category": "BODY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "CHEEKBONE",
+        "category": "BODY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "LARYNX",
+        "category": "BODY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "PHALANGES",
+        "category": "BODY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "METACARPALS",
+        "category": "BODY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "TREE",
+        "category": "NATURE",
+        "difficulty": "easy"
+    },
+    {
+        "text": "LAKE",
+        "category": "NATURE",
+        "difficulty": "easy"
+    },
+    {
+        "text": "HILL",
+        "category": "NATURE",
+        "difficulty": "easy"
+    },
+    {
+        "text": "RIVER",
+        "category": "NATURE",
+        "difficulty": "easy"
+    },
+    {
+        "text": "ISLAND",
+        "category": "NATURE",
+        "difficulty": "medium"
+    },
+    {
+        "text": "FOREST",
+        "category": "NATURE",
+        "difficulty": "medium"
+    },
+    {
+        "text": "WATERFALL",
+        "category": "NATURE",
+        "difficulty": "medium"
+    },
+    {
+        "text": "VOLCANO",
+        "category": "NATURE",
+        "difficulty": "medium"
+    },
+    {
+        "text": "GLACIER",
+        "category": "NATURE",
+        "difficulty": "hard"
+    },
+    {
+        "text": "ARCHIPELAGO",
+        "category": "NATURE",
+        "difficulty": "hard"
+    },
+    {
+        "text": "TSUNAMI",
+        "category": "NATURE",
+        "difficulty": "hard"
+    },
+    {
+        "text": "PHOTOSYNTHESIS",
+        "category": "NATURE",
+        "difficulty": "hard"
+    },
+    {
+        "text": "DRUM",
+        "category": "MUSIC",
+        "difficulty": "easy"
+    },
+    {
+        "text": "PIANO",
+        "category": "MUSIC",
+        "difficulty": "easy"
+    },
+    {
+        "text": "FLUTE",
+        "category": "MUSIC",
+        "difficulty": "easy"
+    },
+    {
+        "text": "VIOLIN",
+        "category": "MUSIC",
+        "difficulty": "easy"
+    },
+    {
+        "text": "TRUMPET",
+        "category": "MUSIC",
+        "difficulty": "medium"
+    },
+    {
+        "text": "HARMONY",
+        "category": "MUSIC",
+        "difficulty": "medium"
+    },
+    {
+        "text": "SAXOPHONE",
+        "category": "MUSIC",
+        "difficulty": "medium"
+    },
+    {
+        "text": "XYLOPHONE",
+        "category": "MUSIC",
+        "difficulty": "hard"
+    },
+    {
+        "text": "ORCHESTRA",
+        "category": "MUSIC",
+        "difficulty": "hard"
+    },
+    {
+        "text": "SYNTHESIZER",
+        "category": "MUSIC",
+        "difficulty": "hard"
+    },
+    {
+        "text": "PHONOGRAPH",
+        "category": "MUSIC",
+        "difficulty": "hard"
+    },
+    {
+        "text": "ELF",
+        "category": "FANTASY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "TROLL",
+        "category": "FANTASY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "WIZARD",
+        "category": "FANTASY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "DRAGON",
+        "category": "FANTASY",
+        "difficulty": "easy"
+    },
+    {
+        "text": "UNICORN",
+        "category": "FANTASY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "MERMAID",
+        "category": "FANTASY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "GOBLIN",
+        "category": "FANTASY",
+        "difficulty": "medium"
+    },
+    {
+        "text": "GRIFFIN",
+        "category": "FANTASY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "PHOENIX",
+        "category": "FANTASY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "CHIMERA",
+        "category": "FANTASY",
+        "difficulty": "hard"
+    },
+    {
+        "text": "NECROMANCER",
+        "category": "FANTASY",
+        "difficulty": "hard"
+    }
+]

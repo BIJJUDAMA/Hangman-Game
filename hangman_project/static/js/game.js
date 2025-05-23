@@ -1,14 +1,14 @@
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-          }
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
       }
+    }
   }
   return cookieValue;
 }
@@ -20,6 +20,7 @@ const csrftoken = getCookie('csrftoken');
 const HINT_COST_REVEAL = 10;
 const HINT_COST_REMOVE = 5;
 const HINT_COST_EXTRA_GUESS = 15;
+const COINS_PER_WIN = 10;
 
 
 
@@ -43,8 +44,8 @@ let gameOver = false
 let allGuessedLetters = []
 let level = 1
 let currentXP = 0
-let xpForNextLevel = 75;
-let timerDuration = 0 
+let xpForNextLevel = 40;
+let timerDuration = 0
 let timerInterval = null
 let timeLeft = 0
 
@@ -61,6 +62,11 @@ const keyboardDiv = document.getElementById('keyboard')
 const hintCategory = document.getElementById('hint-category')
 const levelDisplay = document.getElementById('level-display')
 const xpDisplay = document.getElementById('xp-display')
+const numcoinNav = document.getElementById('numcoin-nav');
+const streakNav = document.getElementById('streak-nav');
+const usernameDisplayNav = document.getElementById('username-display-nav');
+const levelDisplayNav = document.getElementById('level-display-nav');
+const xpDisplayNav = document.getElementById('xp-display-nav');
 
 //! UTILITY FUNCTIONS
 function capitalize(str) {
@@ -69,33 +75,31 @@ function capitalize(str) {
 
 //! AUTHENTICATION & INITIAL USER DATA FETCH
 async function fetchAndSetInitialUserData() {
-  console.log('[DEBUG] fetchAndSetInitialUserData: Function started.');
+  // console.log('[DEBUG] fetchAndSetInitialUserData: Function started.');
   try {
-    t
+
     const response = await fetch('/api/get_user_profile/');
-    console.log('[DEBUG] fetchAndSetInitialUserData: Raw response object:', response);
+    // console.log('[DEBUG] fetchAndSetInitialUserData: Raw response object:', response);
 
     if (!response.ok) {
-      console.warn(`[DEBUG] fetchAndSetInitialUserData: Response not OK. Status: ${response.status}, StatusText: ${response.statusText}`);
+      // console.warn(`[DEBUG] fetchAndSetInitialUserData: Response not OK. Status: ${response.status}, StatusText: ${response.statusText}`);
       // If @login_required redirects, the browser handles it.
-      // This handles other errors or if API doesn't redirect on auth failure.
       if (response.status === 401 || response.status === 403) {
-        console.warn('[DEBUG] fetchAndSetInitialUserData: User not authenticated or forbidden (HTTP 401/403). Redirecting to login.');
+        // console.warn('[DEBUG] fetchAndSetInitialUserData: User not authenticated or forbidden (HTTP 401/403). Redirecting to login.');
         window.location.href = typeof loginPageUrl !== 'undefined' ? loginPageUrl : '/login/';
-        return false; // Indicate failure
+        return false;
       }
-      // Try to get a more specific error message from the response body for server errors
       let errorText = `Failed to fetch auth status: ${response.status} ${response.statusText}`;
       try {
-          const errorData = await response.json(); // Or response.text() if not JSON
-          if (errorData && errorData.error) { // If backend sends a JSON error
-              errorText = errorData.error;
-          } else if (typeof errorData === 'string' && errorData.length < 200) { // If it's a short text error
-              errorText = errorData;
-          }
-          console.error('[DEBUG] fetchAndSetInitialUserData: Server error response body:', errorData);
+        const errorData = await response.json();
+        if (errorData && errorData.error) {
+          errorText = errorData.error;
+        } else if (typeof errorData === 'string' && errorData.length < 200) {
+          errorText = errorData;
+        }
+        // console.error('[DEBUG] fetchAndSetInitialUserData: Server error response body:', errorData);
       } catch (e) {
-          console.warn('[DEBUG] fetchAndSetInitialUserData: Could not parse error response body.', e);
+        // console.warn('[DEBUG] fetchAndSetInitialUserData: Could not parse error response body.', e);
       }
       throw new Error(errorText); // This will be caught by the outer catch block
     }
@@ -104,37 +108,49 @@ async function fetchAndSetInitialUserData() {
     console.log('[DEBUG] fetchAndSetInitialUserData: Parsed data from API:', data);
 
     // Since @login_required protects the API, a successful response means user is authenticated.
-    // The new API directly returns profile data or an error object with defaults.
-    console.log('[DEBUG] fetchAndSetInitialUserData: API call successful, proceeding to set data.');
+
+    // console.log('[DEBUG] fetchAndSetInitialUserData: API call successful, proceeding to set data.');
     if (data.error && data.error.includes('UserProfile not found')) {
-        console.warn('[DEBUG] fetchAndSetInitialUserData: UserProfile not found on backend. API returned default values.');
+      // console.warn('[DEBUG] fetchAndSetInitialUserData: UserProfile not found on backend. API returned default values.');
     }
     coins = data.coins !== undefined ? data.coins : 0;
     streak = data.streak !== undefined ? data.streak : 0;
     level = data.level !== undefined ? data.level : 1;
     currentXP = data.xp !== undefined ? data.xp : 0;
     xpForNextLevel = calculateXPForLevel(level); // Recalculate based on fetched level
-    
+
     // Display the username
     const usernameDisplayElement = document.getElementById('username-display');
     if (usernameDisplayElement && data.username) {
-        usernameDisplayElement.textContent = ` ${data.username}`;
+      usernameDisplayElement.textContent = ` ${data.username}`;
+    }
+    // Update username in navbar
+    if (usernameDisplayNav && data.username) {
+      usernameDisplayNav.textContent = ` ${data.username}`;
+    }
+    // Update level and XP in navbar
+    if (levelDisplayNav) {
+      levelDisplayNav.textContent = `Lvl: ${level}`;
+    }
+    if (xpDisplayNav) {
+      xpDisplayNav.textContent = `XP: ${currentXP}/${xpForNextLevel}`;
     }
 
-    console.log('[SUCCESS] fetchAndSetInitialUserData: User data fetched and set from backend:', { username: data.username, coins, streak, level, currentXP, xpForNextLevel });
-    return true; // Indicate success
+
+    // console.log('[SUCCESS] fetchAndSetInitialUserData: User data fetched and set from backend:', { username: data.username, coins, streak, level, currentXP, xpForNextLevel });
+    return true;
 
   } catch (error) {
-    console.error('[CRITICAL] fetchAndSetInitialUserData: Error in try block:', error.message, error);
-    // Fallback or error display
+    // console.error('[CRITICAL] fetchAndSetInitialUserData: Error in try block:', error.message, error);
+
     coins = 0; streak = 0; level = 1; currentXP = 0;
     xpForNextLevel = calculateXPForLevel(level);
-    showTemporaryMessage('Could not load your progress. Starting fresh.', true); // Keep this message
-    return false; // Indicate failure
+    showTemporaryMessage('Could not load your progress. Starting fresh.', true);
+    return false;
   }
 }
 
-//! DATA PERSISTENCE FUNCTIONS (Backend + LocalStorage Fallback/Sync)
+//! DATA PERSISTENCE FUNCTIONS 
 async function saveGameProgressToBackend() {
   try {
     const response = await fetch('/api/save_progress/', {
@@ -151,10 +167,10 @@ async function saveGameProgressToBackend() {
       })
     });
     if (!response.ok) {
-      console.error('Failed to save progress to backend:', response.statusText);
+      // console.error('Failed to save progress to backend:', response.statusText);
     }
   } catch (error) {
-    console.error('Error saving progress to backend:', error);
+    // console.error('Error saving progress to backend:', error);
   }
 }
 
@@ -177,25 +193,37 @@ function saveLevelAndXP() {
 
 //! UI UPDATE FUNCTIONS
 function updateCoinDisplay() {
-  console.log('[UI UPDATE] updateCoinDisplay called. Current coins:', coins);
+  // console.log('[UI UPDATE] updateCoinDisplay called. Current coins:', coins);
   if (numcoin) {
     numcoin.innerHTML = '🪙: ' + coins;
   } else {
-    console.error('[UI UPDATE] numcoin element not found!');
+    // console.error('[UI UPDATE] numcoin element not found!');
+  }
+  // Update coins in navbar
+  if (numcoinNav) {
+    numcoinNav.innerHTML = '🪙: ' + coins;
+  } else {
+    // console.warn('[UI UPDATE] numcoin-nav element not found!');
   }
 }
 
 function updateStreakDisplay() {
-  console.log('[UI UPDATE] updateStreakDisplay called. Current streak:', streak);
+  // console.log('[UI UPDATE] updateStreakDisplay called. Current streak:', streak);
   if (streakDiv) {
     streakDiv.innerHTML = `🔥 Streak: ${streak}`;
   } else {
-    console.error('[UI UPDATE] streakDiv element not found!');
+    // console.error('[UI UPDATE] streakDiv element not found!');
+  }
+  // Update streak in navbar
+  if (streakNav) {
+    streakNav.innerHTML = `🔥 Streak: ${streak}`;
+  } else {
+    // console.warn('[UI UPDATE] streak-nav element not found!');
   }
 }
 
 function updateHangmanImage() {
-  hangmanImg.src = `/static/images/${wrongGuesses}.png`
+  hangmanImg.src = `/static/images/${wrongGuesses}.png`;
 }
 
 function updateGuessedLetters() {
@@ -243,27 +271,39 @@ function renderKeyboard() {
 
 function animateWordDisplay(type) {
   wordDisplay.classList.remove('animate-correct', 'animate-wrong', 'animate-win')
-  void wordDisplay.offsetWidth 
+  void wordDisplay.offsetWidth
   wordDisplay.classList.add(`animate-${type}`)
 }
 
 function updateLevelDisplay() {
-  console.log('[UI UPDATE] updateLevelDisplay called. Current level:', level);
+  // console.log('[UI UPDATE] updateLevelDisplay called. Current level:', level);
   const levelOverlay = document.getElementById('level-overlay');
   if (levelOverlay) {
     levelOverlay.textContent = `Lvl: ${level}`;
   } else {
-    console.error('[UI UPDATE] level-overlay element not found!');
+    // console.error('[UI UPDATE] level-overlay element not found!');
+  }
+  // Update level in navbar
+  if (levelDisplayNav) {
+    levelDisplayNav.textContent = `Lvl: ${level}`;
+  } else {
+    // console.warn('[UI UPDATE] level-display-nav element not found!');
   }
 }
 
 function updateXPDisplay() {
-  console.log('[UI UPDATE] updateXPDisplay called. XP:', currentXP, 'Next Lvl XP:', xpForNextLevel);
+  // console.log('[UI UPDATE] updateXPDisplay called. XP:', currentXP, 'Next Lvl XP:', xpForNextLevel);
   const xpOverlayText = document.getElementById('xp-overlay-text');
   if (xpOverlayText) {
     xpOverlayText.textContent = `XP: ${currentXP}/${xpForNextLevel}`;
   } else {
-    console.error('[UI UPDATE] xp-overlay-text element not found!');
+    // console.error('[UI UPDATE] xp-overlay-text element not found!');
+  }
+  // Update XP in navbar
+  if (xpDisplayNav) {
+    xpDisplayNav.textContent = `XP: ${currentXP}/${xpForNextLevel}`;
+  } else {
+    // console.warn('[UI UPDATE] xp-display-nav element not found!');
   }
 
   const progressBar = document.getElementById('xp-progress');
@@ -271,7 +311,7 @@ function updateXPDisplay() {
     const percentage = (currentXP / xpForNextLevel) * 100;
     progressBar.style.width = `${percentage}%`;
   } else {
-    console.error('[UI UPDATE] xp-progress element not found!');
+    // console.error('[UI UPDATE] xp-progress element not found!');
   }
 }
 
@@ -293,12 +333,13 @@ function updateHintButtons() {
 
 //! LEVEL & XP MANAGEMENT
 function calculateXPForLevel(level) {
-  if (level <= 1) return 120;
+  if (level <= 1) return 40;
 
-  let xp = Math.floor(120 * Math.pow(1.12, level - 1));
-  let remainder = xp % 15;
+  let xp = 40 + (level - 1) * 20;
+
+  let remainder = xp % 5;
   if (remainder !== 0) {
-    xp += (15 - remainder);
+    xp += (5 - remainder);
   }
   return xp;
 }
@@ -320,7 +361,7 @@ function checkLevelUp() {
 
   if (level >= 20) {
     level = 20;
-    currentXP = xpForNextLevel; 
+    currentXP = xpForNextLevel;
 
     saveLevelAndXP();
     updateLevelDisplay();
@@ -356,35 +397,34 @@ function resetStats() {
   localStorage.setItem('showStatsResetMessage', 'true');
 
 
-  location.reload(); 
+  location.reload();
 }
 
 async function handleLogout() {
   try {
     const response = await fetch('/api/logout/', {
-      method: 'POST', 
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': csrftoken 
+        'X-CSRFToken': csrftoken
       }
     });
     const data = await response.json();
     if (response.ok && data.message === 'Logout successful') {
-      // Clear local storage related to game state
       localStorage.removeItem('hangmanCoins');
       localStorage.removeItem('hangmanStreak');
       localStorage.removeItem('hangmanLevel');
       localStorage.removeItem('hangmanXP');
-      localStorage.removeItem('hangmanTimerDuration'); 
+      localStorage.removeItem('hangmanTimerDuration');
       localStorage.removeItem('showPlayAgainMessage');
       localStorage.removeItem('showStatsResetMessage');
 
-      window.location.href = '/login/'; 
+      window.location.href = '/login/';
     } else {
       showTemporaryMessage(data.error || 'Logout failed. Please try again.', true);
     }
   } catch (error) {
-    console.error('Error during logout:', error);
+    // console.error('Error during logout:', error);
     showTemporaryMessage('An error occurred during logout.', true);
   }
 }
@@ -515,11 +555,11 @@ function closeResultPopup() {
   if (!popup) return;
 
   const popupContainer = document.querySelector('.popup-container');
- 
+
   popupContainer.classList.remove('animate__fadeIn');
   popupContainer.classList.add('animate__fadeOut');
 
- 
+
   popupContainer.addEventListener('animationend', function handler() {
     popupContainer.style.display = 'none';
     popupContainer.classList.remove('animate__fadeOut');
@@ -557,9 +597,9 @@ function showTemporaryMessage(text, isError = false) {
 
 
 
-function showConfirmPopup(titleText, messageText, onConfirm) { 
+function showConfirmPopup(titleText, messageText, onConfirm) {
   const popup = document.getElementById('popup');
-  if (!popup) return; 
+  if (!popup) return;
   popup.classList.remove('animate__fadeOut', 'animate__faster');
   popup.classList.add('animate__fadeIn');
 
@@ -581,7 +621,7 @@ function showConfirmPopup(titleText, messageText, onConfirm) {
   }
 
   let noBtn = document.getElementById('no-btn');
-  if (!noBtn && continueBtn) { 
+  if (!noBtn && continueBtn) {
     noBtn = document.createElement('button');
     noBtn.id = 'no-btn';
     noBtn.className = 'popup-btn';
@@ -600,8 +640,8 @@ function showConfirmPopup(titleText, messageText, onConfirm) {
   const content = popup.querySelector('.popup-content');
   if (content) content.style.visibility = 'visible';
 
-  
-  function fadeOutAndHidePopup() {    
+
+  function fadeOutAndHidePopup() {
     popup.classList.remove('animate__fadeIn');
     popup.classList.add('animate__fadeOut', 'animate__faster');
 
@@ -612,13 +652,13 @@ function showConfirmPopup(titleText, messageText, onConfirm) {
 
       if (content) content.style.visibility = 'hidden';
 
-      if (statsSection) statsSection.style.display = 'block'; 
-        if (continueBtn) {
-          continueBtn.textContent = 'Continue';
-          continueBtn.style.backgroundColor = 'var(--color-primary)';
-        }
-        if (noBtn) noBtn.style.display = 'none';
-      }, { once: true });
+      if (statsSection) statsSection.style.display = 'block';
+      if (continueBtn) {
+        continueBtn.textContent = 'Continue';
+        continueBtn.style.backgroundColor = 'var(--color-primary)';
+      }
+      if (noBtn) noBtn.style.display = 'none';
+    }, { once: true });
   }
 
   if (continueBtn) {
@@ -646,7 +686,7 @@ function showTimerPopup() {
   popup.style.justifyContent = 'center';
   popup.style.alignItems = 'center';
 
-  
+
   popup.classList.remove('animate__fadeOut');
   popup.classList.remove('animate__faster');
   popup.classList.add('animate__fadeIn');
@@ -659,7 +699,7 @@ function closeTimerPopup() {
   const popup = document.getElementById('timer-popup');
   if (!popup) return;
 
- 
+
   popup.classList.remove('animate__fadeIn');
   popup.classList.add('animate__fadeOut');
   popup.classList.add('animate__faster');
@@ -679,7 +719,7 @@ function showHowToPlayPopup() {
   const popup = document.getElementById('how-to-play-popup')
   if (!popup) return
 
-  
+
   popup.style.display = 'flex'
   popup.style.justifyContent = 'center'
   popup.style.alignItems = 'center'
@@ -703,7 +743,7 @@ function closeHowToPlayPopup() {
   popup.addEventListener('animationend', function handler() {
     popup.style.display = 'none';
     popup.classList.remove('animate__fadeOut');
-    popup.classList   .remove('animate__faster');
+    popup.classList.remove('animate__faster');
     popup.removeEventListener('animationend', handler);
 
     const content = popup.querySelector('.popup-content');
@@ -720,7 +760,7 @@ function showGameCompletePopup(word) {
   popup.classList.add('animate__fadeIn');
 
   const title = document.getElementById('popup-title');
-  const messageEl = document.getElementById('popup-message'); 
+  const messageEl = document.getElementById('popup-message');
   const statsSection = document.querySelector('.popup-stats');
   const continueBtn = document.getElementById('popup-continue');
   const closeBtn = document.getElementById('close-popup');
@@ -728,7 +768,7 @@ function showGameCompletePopup(word) {
     closeBtn.style.display = 'none';
   }
 
-  if (statsSection) statsSection.style.display = 'none'; 
+  if (statsSection) statsSection.style.display = 'none';
 
   if (title) {
     title.textContent = "🎉 Game Complete!";
@@ -755,7 +795,7 @@ function showGameCompletePopup(word) {
     continueBtn.style.backgroundColor = "var(--color-primary)";
     continueBtn.onclick = function () {
 
-      coins = 0; 
+      coins = 0;
       level = 1;
       currentXP = 0;
       xpForNextLevel = calculateXPForLevel(level);
@@ -765,13 +805,13 @@ function showGameCompletePopup(word) {
       popup.classList.remove('animate__fadeIn');
       popup.classList.add('animate__fadeOut');
       popup.classList.add('animate__faster');
-    
+
       popup.addEventListener('animationend', function handler() {
         popup.style.display = 'none';
         popup.classList.remove('animate__fadeOut');
         popup.classList.remove('animate__faster');
         popup.removeEventListener('animationend', handler);
-    
+
         const content = popup.querySelector('.popup-content');
         if (content) content.style.visibility = 'hidden';
       }, { once: true });
@@ -781,12 +821,12 @@ function showGameCompletePopup(word) {
       updateLevelDisplay();
       updateXPDisplay();
       localStorage.setItem('showPlayAgainMessage', 'true');
-      location.reload(); 
+      location.reload();
     };
   }
 
- 
-  
+
+
   popup.style.display = 'flex';
   popup.style.justifyContent = 'center';
   popup.style.alignItems = 'center';
@@ -795,7 +835,7 @@ function showGameCompletePopup(word) {
 
 
 
-  clearInterval(timerInterval); 
+  clearInterval(timerInterval);
 }
 
 function showHintPopup() {
@@ -835,14 +875,14 @@ function closeHintPopup() {
 
 //! CORE GAME LOGIC
 
-async function initGame() { 
+async function initGame() {
   guessedLetters = [];
   allGuessedLetters = [];
   wrongGuesses = 0;
   gameOver = false;
   if (message) {
     message.textContent = '';
-    message.style.color = '#333333'; 
+    message.style.color = '#333333';
   }
 
   try {
@@ -850,8 +890,8 @@ async function initGame() {
     if (!response.ok) {
       let errorMsg = `HTTP error! status: ${response.status}`;
       try {
-          const errData = await response.json();
-          errorMsg = errData.error || errorMsg;
+        const errData = await response.json();
+        errorMsg = errData.error || errorMsg;
       } catch (e) { /* Ignore if response isn't JSON */ }
       throw new Error(errorMsg);
     }
@@ -867,6 +907,7 @@ async function initGame() {
     }
     selectedWord = data.word.toLowerCase();
     currentCategory = data.category;
+    // console.log('[DEBUG] Current word (answer):', selectedWord);
 
     if (!selectedWord || selectedWord.trim() === '') {
       if (message) {
@@ -878,17 +919,16 @@ async function initGame() {
       return;
     }
   } catch (error) {
-    console.error('Failed to fetch word:', error);
+    // console.error('Failed to fetch word:', error);
     if (message) {
       message.textContent = error.message || 'Could not load a new word. Please try again.';
       message.style.color = 'var(--color-wrong)';
     }
     disableAllKeys();
     if (hintBtn) hintBtn.disabled = true;
-    return; // Stop further execution if word fetch fails
+    return;
   }
 
-  // Only proceed if a word was successfully fetched
   if (hintCategory) hintCategory.textContent = capitalize(currentCategory);
   if (hintBtn) hintBtn.disabled = false
 
@@ -896,13 +936,13 @@ async function initGame() {
   updateStreakDisplay()
   updateLevelDisplay()
   updateXPDisplay()
-  updateWordDisplay() 
+  updateWordDisplay()
   updateHangmanImage()
-  updateGuessedLetters() 
+  updateGuessedLetters()
   updateGuessCounter()
   renderKeyboard()
 
-  resetTimer() 
+  resetTimer()
 }
 
 function updateWordDisplay() {
@@ -917,9 +957,11 @@ function updateWordDisplay() {
   wordDisplay.textContent = wordArray.join(' ')
   wordDisplay.classList.add('letter-spacing')
 
-  if (selectedWord && selectedWord.length > 0 && !wordArray.includes('_') && !gameOver) { 
+  if (selectedWord && selectedWord.length > 0 && !wordArray.includes('_') && !gameOver) {
+    coins += COINS_PER_WIN;
     streak += 1
-    currentXP += 15
+    currentXP += 40;
+    xpForNextLevel = calculateXPForLevel(level);
     updateCoinDisplay()
     saveCoins()
     updateStreakDisplay()
@@ -952,7 +994,7 @@ function updateWordDisplay() {
 function handleGuess(letter) {
   if (gameOver) return
   const button = document.getElementById(`key-${letter}`)
-  if (!button || guessedLetters.includes(letter) || button.disabled) return 
+  if (!button || guessedLetters.includes(letter) || button.disabled) return
 
   guessedLetters.push(letter)
   allGuessedLetters.push(letter)
@@ -1002,12 +1044,12 @@ function disableAllKeys() {
 }
 
 //! EVENT LISTENERS & INITIALIZATION
-document.addEventListener('DOMContentLoaded', async () => { 
+document.addEventListener('DOMContentLoaded', async () => {
   const userDataFetched = await fetchAndSetInitialUserData();
 
-  if (userDataFetched) { // Only proceed if user data was successfully fetched and user is authenticated
+  if (userDataFetched) {
     initTimerDisplay();
-    initGame(); // This will use the globally set coins, streak, etc. from the backend
+    initGame();
   }
 
   if (localStorage.getItem('showPlayAgainMessage') === 'true') {
@@ -1074,8 +1116,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (howToPlayGotItBtn) {
     howToPlayGotItBtn.addEventListener('click', closeHowToPlayPopup);
   }
-  
-  
+
+
 
   if (resetBtn) {
     resetBtn.addEventListener('click', () => initGame())
@@ -1198,6 +1240,58 @@ document.addEventListener('DOMContentLoaded', async () => {
       closeHintPopup();
     };
   }
+
+
+  const navbarToggler = document.querySelector('.navbar-toggler');
+  const navbarCollapse = document.querySelector('.navbar-collapse');
+
+  const openNavbar = () => {
+    navbarCollapse.classList.add('show', 'animate__fadeIn',);
+    navbarCollapse.classList.remove('animate__fadeOut', 'animate__slow');
+    navbarToggler.setAttribute('aria-expanded', 'true');
+
+  };
+
+  const closeNavbar = () => {
+    navbarCollapse.classList.remove('animate__fadeIn');
+    navbarCollapse.classList.add('animate__fadeOut', 'animate__fast');
+    navbarToggler.setAttribute('aria-expanded', 'false');
+    ;
+    setTimeout(() => {
+      navbarCollapse.classList.remove('show');
+    }, 500);
+  };
+
+  const isClickInside = (target) => {
+    return navbarCollapse.contains(target) || navbarToggler.contains(target);
+  };
+
+  document.addEventListener('click', (event) => {
+    const isOpen = navbarCollapse.classList.contains('show');
+    if (!isClickInside(event.target) && isOpen) {
+      closeNavbar();
+    }
+  });
+
+  navbarToggler.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const isOpen = navbarCollapse.classList.contains('show');
+    if (isOpen) {
+      closeNavbar();
+    } else {
+      openNavbar();
+    }
+  });
+
+  navbarCollapse.addEventListener('click', (event) => {
+    event.stopPropagation();
+  });
+
+  resetBtn.addEventListener('click', () => {
+    closeNavbar();
+
+  });
+
 
 
 })

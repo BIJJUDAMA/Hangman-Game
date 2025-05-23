@@ -19,12 +19,13 @@ class UserProfile(models.Model):
         return self.user.username 
 
 @receiver(post_save, sender=User)
-def create_or_update_user_profile(sender, instance, created, **kwargs):
-    """Create or update the user profile when a User object is saved."""
+def ensure_user_profile_exists(sender, instance, created, **kwargs):
+    """Ensure a UserProfile exists for every User, creating one if necessary."""
     if created:
-        UserProfile.objects.create(user=instance) 
-    if hasattr(instance, 'userprofile'): 
-        instance.userprofile.save()
+        UserProfile.objects.create(user=instance)
+    else:
+
+        UserProfile.objects.get_or_create(user=instance)
 
 class Word(models.Model):
     """Represents a word to be guessed in the game."""

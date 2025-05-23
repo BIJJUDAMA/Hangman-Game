@@ -46,7 +46,7 @@ ROOT_URLCONF = 'hangman_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')], # Path to your global templates folder
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,11 +69,11 @@ DATABASES = {
     
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hangman_db',     
-        'USER': 'root', 
-        'PASSWORD': 'nitansh', 
-        'HOST': 'localhost',      
-        'PORT': '3306',            
+        'NAME': 'hangman_db_local',  #You can keep any name here but make sure a database of this name is in you MySQL 
+        'USER': 'root', #Standard convention for full access
+        'PASSWORD': 'Your_MySQL_Password', #Password
+        'HOST': 'localhost', #If you are running it locally
+        'PORT': '3306', #Standard convention
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
@@ -126,5 +126,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_collect') # For production dep
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Authentication URLs
-LOGIN_URL = 'login_page'  # This should be the *name* of your login URL pattern
-LOGIN_REDIRECT_URL = 'game_page' # Where to go after successful login or signup
+LOGIN_URL = 'login_page'  # Login URL pater
+LOGIN_REDIRECT_URL = 'game_page' #Redirection after log in
