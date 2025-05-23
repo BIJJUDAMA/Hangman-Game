@@ -108,7 +108,6 @@ async function fetchAndSetInitialUserData() {
     console.log('[DEBUG] fetchAndSetInitialUserData: Parsed data from API:', data);
 
     // Since @login_required protects the API, a successful response means user is authenticated.
-
     // console.log('[DEBUG] fetchAndSetInitialUserData: API call successful, proceeding to set data.');
     if (data.error && data.error.includes('UserProfile not found')) {
       // console.warn('[DEBUG] fetchAndSetInitialUserData: UserProfile not found on backend. API returned default values.');

@@ -38,15 +38,15 @@ function closeHowToPlayPopup() {
     popup.classList.remove('animate__fadeIn');
     popup.classList.add('animate__fadeOut');
     popup.classList.add('animate__faster');
-  
+
     popup.addEventListener('animationend', function handler() {
-      popup.style.display = 'none';
-      popup.classList.remove('animate__fadeOut');
-      popup.classList.remove('animate__faster');
-      popup.removeEventListener('animationend', handler);
-  
-      const content = popup.querySelector('.popup-content');
-      if (content) content.style.visibility = 'hidden';
+        popup.style.display = 'none';
+        popup.classList.remove('animate__fadeOut');
+        popup.classList.remove('animate__faster');
+        popup.removeEventListener('animationend', handler);
+
+        const content = popup.querySelector('.popup-content');
+        if (content) content.style.visibility = 'hidden';
     }, { once: true });
 }
 
@@ -68,9 +68,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-document.getElementById('playGameBtn').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent default link behavior
-    fetch('/api/check_auth/') // Endpoint to check auth status
+document.getElementById('playGameBtn').addEventListener('click', function (event) {
+    event.preventDefault();
+    fetch('/api/check_auth/')
         .then(response => response.json())
         .then(data => {
             if (data.isAuthenticated) {
